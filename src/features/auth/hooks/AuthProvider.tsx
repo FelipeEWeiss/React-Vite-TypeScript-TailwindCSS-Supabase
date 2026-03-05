@@ -9,14 +9,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    authService.getUser()
+    authService
+      .getUser()
       .then(({ data }) => setUser(data.user))
       .finally(() => setLoading(false));
 
-    const { data: { subscription } } =
-      supabase.auth.onAuthStateChange((_event, session) => {
-        setUser(session?.user ?? null);
-      });
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
 
     return () => subscription.unsubscribe();
   }, []);
@@ -28,9 +30,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signUp = async (email: string, password: string) => {
-    const { data, error } = await authService.signUp(email, password);
+    const { error } = await authService.signUp(email, password);
     if (error) throw error;
-    setUser(data.user);
   };
 
   const signOut = async () => {
@@ -43,7 +44,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signOut, signUp, resetPassword }}>
+    <AuthContext.Provider
+      value={{ user, loading, signIn, signOut, signUp, resetPassword }}
+    >
       {children}
     </AuthContext.Provider>
   );
