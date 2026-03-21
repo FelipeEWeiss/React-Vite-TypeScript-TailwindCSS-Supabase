@@ -43,9 +43,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     await authService.resetPassword(email);
   };
 
+  const signInWithProvider = async (provider: 'github' | 'google') => {
+    const { error } = await authService.signInWithProvider(provider);
+    if (error) throw error;
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, loading, signIn, signOut, signUp, resetPassword }}
+      value={{
+        user,
+        loading,
+        signIn,
+        signOut,
+        signUp,
+        resetPassword,
+        signInWithProvider,
+      }}
     >
       {children}
     </AuthContext.Provider>

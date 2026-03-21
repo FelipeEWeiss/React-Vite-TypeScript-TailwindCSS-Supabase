@@ -1,8 +1,23 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import BackgroundImg from '../../assets/background.jpg';
 import ReactImg from '../../assets/react.svg';
+import { useAuth } from '../../features/auth/hooks/useAuth';
+import { useEffect } from 'react';
 
 export const AuthLayout = () => {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && user) {
+      navigate('/', { replace: true });
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return null;
+  }
+
   return (
     <div
       className="relative w-full h-screen bg-cover bg-center"
