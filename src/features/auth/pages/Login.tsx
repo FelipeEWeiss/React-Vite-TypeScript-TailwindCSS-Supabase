@@ -1,11 +1,13 @@
 import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
+import { useToast } from '@felipeeweiss/react-toast-message';
 import { Button } from '../../../shared/components/Button';
 import { useAuth } from '../hooks/useAuth';
 
 export const Login = () => {
   const { signIn } = useAuth();
+  const { addToast } = useToast();
   const navigate = useNavigate();
 
   const emailRef = useRef<HTMLInputElement>(null);
@@ -18,7 +20,7 @@ export const Login = () => {
     const password = passwordRef.current?.value;
 
     if (!email || !password) {
-      alert('All inputs must be completed');
+      addToast('All inputs must be completed');
       return;
     }
 
