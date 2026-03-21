@@ -1,17 +1,17 @@
-interface ButtonProps {
+import type { ReactNode, ButtonHTMLAttributes } from 'react';
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string;
-  handleClick?: () => null;
   variant?: 'primary' | 'secondary';
-  buttonType?: 'submit' | 'button' | 'reset';
-  children?: any;
+  children?: ReactNode;
 }
 
 export const Button = ({
   text = 'Hello',
-  handleClick,
   variant = 'primary',
-  buttonType = 'button',
   children,
+  className,
+  ...rest
 }: ButtonProps) => {
   const baseStyle =
     'cursor-pointer rounded-xl py-4 w-full text-sm font-semibold transition flex justify-center items-center gap-2';
@@ -24,9 +24,8 @@ export const Button = ({
 
   return (
     <button
-      type={buttonType}
-      onClick={handleClick}
-      className={`${baseStyle} ${variants[variant]}`}
+      className={`${baseStyle} ${variants[variant]} ${className || ''}`}
+      {...rest}
     >
       {children}
       {text}

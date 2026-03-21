@@ -12,7 +12,7 @@ const signInSchema = z.object({
 });
 
 export const SignIn = () => {
-  const { signIn } = useAuth();
+  const { signIn, signInWithProvider } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
 
@@ -40,6 +40,14 @@ export const SignIn = () => {
       navigate('/');
     } catch {
       addToast('Error to sign in. Please, check your credentials.', 'error');
+    }
+  }
+
+  async function handleSocialLogin(provider: 'google' | 'github') {
+    try {
+      await signInWithProvider(provider);
+    } catch (error) {
+      addToast(`Error connecting to ${provider}`, 'error');
     }
   }
 
@@ -82,7 +90,7 @@ export const SignIn = () => {
           />
         </div>
 
-        <Button buttonType="submit" text="Sign in" />
+        <Button type="submit" text="Sign in" />
       </form>
 
       <div className="flex items-center w-full my-4">
@@ -91,11 +99,19 @@ export const SignIn = () => {
         <div className="grow border-t border-gray-300" />
       </div>
 
-      <Button text="Continue with Google" variant="secondary">
+      <Button
+        text="Continue with Google"
+        variant="secondary"
+        onClick={() => handleSocialLogin('google')}
+      >
         <FaGoogle className="w-5 h-5" />
       </Button>
 
-      <Button text="Continue with GitHub" variant="secondary">
+      <Button
+        text="Continue with GitHub"
+        variant="secondary"
+        onClick={() => handleSocialLogin('github')}
+      >
         <FaGithub className="w-5 h-5" />
       </Button>
 

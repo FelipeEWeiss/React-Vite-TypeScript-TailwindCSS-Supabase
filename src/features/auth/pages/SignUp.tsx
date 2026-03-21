@@ -93,7 +93,7 @@ export const SignUp = () => {
           />
         </div>
 
-        <Button buttonType="submit" text="Sign Up" />
+        <Button type="submit" text="Sign Up" />
       </form>
       <div className="flex items-center w-full my-4">
         <div className="grow border-t border-gray-300" />

@@ -61,7 +61,7 @@ export const ForgotPassword = () => {
           />
         </div>
 
-        <Button buttonType="submit" text="Reset" />
+        <Button type="submit" text="Reset" />
       </form>
 
       <div className="flex items-center w-full my-4">
