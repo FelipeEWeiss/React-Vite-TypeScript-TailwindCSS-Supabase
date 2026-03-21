@@ -2,8 +2,14 @@ import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { useToast } from '@felipeeweiss/react-toast-message';
+import { z } from 'zod';
 import { Button } from '../../../shared/components/Button';
 import { useAuth } from '../hooks/useAuth';
+
+const loginSchema = z.object({
+  email: z.string().min(1, 'Email is required').email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters long'),
+});
 
 export const Login = () => {
   const { signIn } = useAuth();
@@ -16,19 +22,24 @@ export const Login = () => {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const email = emailRef.current?.value;
-    const password = passwordRef.current?.value;
+    const data = {
+      email: emailRef.current?.value,
+      password: passwordRef.current?.value,
+    };
 
-    if (!email || !password) {
-      addToast('All inputs must be completed');
+    const result = loginSchema.safeParse(data);
+
+    if (!result.success) {
+      const errorMessage = result.error.issues[0].message;
+      addToast(errorMessage);
       return;
     }
 
     try {
-      await signIn(email, password);
+      await signIn(result.data.email, result.data.password);
       navigate('/');
     } catch {
-      console.log('Error to login');
+      addToast('Error to login. Please, check your credentials.', 'error');
     }
   }
 

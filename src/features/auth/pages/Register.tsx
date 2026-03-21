@@ -1,10 +1,27 @@
 import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useToast } from '@felipeeweiss/react-toast-message';
+import { z } from 'zod';
 import { Button } from '../../../shared/components/Button';
 import { useAuth } from '../hooks/useAuth';
 
+const registerSchema = z
+  .object({
+    email: z
+      .string()
+      .min(1, 'Email is required')
+      .email('Invalid email address'),
+    password: z.string().min(6, 'Password must be at least 6 characters long'),
+    confirmationPassword: z.string().min(1, 'Please confirm your password'),
+  })
+  .refine((data) => data.password === data.confirmationPassword, {
+    message: "Passwords don't match",
+    path: ['confirmationPassword'],
+  });
+
 export const Register = () => {
   const { signUp } = useAuth();
+  const { addToast } = useToast();
   const navigate = useNavigate();
 
   const emailRef = useRef<HTMLInputElement>(null);
@@ -14,25 +31,25 @@ export const Register = () => {
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
 
-    const email = emailRef.current?.value;
-    const password = passwordRef.current?.value;
-    const confirmationPassword = confirmationPasswordRef.current?.value;
+    const data = {
+      email: emailRef.current?.value,
+      password: passwordRef.current?.value,
+      confirmationPassword: confirmationPasswordRef.current?.value,
+    };
 
-    if (!email || !password || !confirmationPassword) {
-      alert('All inputs must be completed');
-      return;
-    }
+    const result = registerSchema.safeParse(data);
 
-    if (password !== confirmationPassword) {
-      alert('The passwords must be the same');
+    if (!result.success) {
+      const errorMessage = result.error.issues[0].message;
+      addToast(errorMessage);
       return;
     }
 
     try {
-      await signUp(email, password);
+      await signUp(result.data.email, result.data.password);
       navigate('/login');
     } catch {
-      console.log('Error to login');
+      addToast('Error creating account. Please, try again.', 'error');
     }
   }
 

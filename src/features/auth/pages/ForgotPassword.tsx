@@ -1,10 +1,17 @@
 import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useToast } from '@felipeeweiss/react-toast-message';
+import { z } from 'zod';
 import { Button } from '../../../shared/components/Button';
 import { useAuth } from '../hooks/useAuth';
 
+const forgotPasswordSchema = z.object({
+  email: z.string().min(1, 'Email is required').email('Invalid email address'),
+});
+
 export const ForgotPassword = () => {
   const { resetPassword } = useAuth();
+  const { addToast } = useToast();
   const navigate = useNavigate();
 
   const emailRef = useRef<HTMLInputElement>(null);
@@ -12,18 +19,27 @@ export const ForgotPassword = () => {
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
 
-    const email = emailRef.current?.value;
+    const data = {
+      email: emailRef.current?.value,
+    };
 
-    if (!email) {
-      alert('All inputs must be completed');
+    const result = forgotPasswordSchema.safeParse(data);
+
+    if (!result.success) {
+      const errorMessage = result.error.issues[0].message;
+      addToast(errorMessage);
       return;
     }
 
     try {
-      await resetPassword(email);
+      await resetPassword(result.data.email);
+      addToast(
+        "We've sent you a password reset link. Please, check your inbox.",
+        'success',
+      );
       navigate('/login');
     } catch {
-      console.log('Error to login');
+      addToast('Error to reset your password. Please, try again.', 'error');
     }
   }
 
