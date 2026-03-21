@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Login } from '../features/auth/pages/Login';
-import { Register } from '../features/auth/pages/Register';
+import { SignIn } from '../features/auth/pages/SignIn';
+import { SignUp } from '../features/auth/pages/SignUp';
 import { ForgotPassword } from '../features/auth/pages/ForgotPassword';
 
 import { ProtectedRoute } from '../shared/components/ProtectedRoute';
@@ -12,8 +12,8 @@ export const AppRouter = () => (
   <BrowserRouter>
     <Routes>
       <Route element={<AuthLayout />}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Route>
 

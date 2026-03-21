@@ -6,12 +6,12 @@ import { z } from 'zod';
 import { Button } from '../../../shared/components/Button';
 import { useAuth } from '../hooks/useAuth';
 
-const loginSchema = z.object({
+const signInSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters long'),
 });
 
-export const Login = () => {
+export const SignIn = () => {
   const { signIn } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export const Login = () => {
       password: passwordRef.current?.value,
     };
 
-    const result = loginSchema.safeParse(data);
+    const result = signInSchema.safeParse(data);
 
     if (!result.success) {
       const errorMessage = result.error.issues[0].message;
@@ -39,7 +39,7 @@ export const Login = () => {
       await signIn(result.data.email, result.data.password);
       navigate('/');
     } catch {
-      addToast('Error to login. Please, check your credentials.', 'error');
+      addToast('Error to sign in. Please, check your credentials.', 'error');
     }
   }
 
@@ -102,7 +102,7 @@ export const Login = () => {
       <div className="flex justify-center gap-1">
         <span className="text-sm text-gray-500">Don't have an account?</span>
 
-        <Link to="/register" className="font-semibold text-sm text-blue-800">
+        <Link to="/signup" className="font-semibold text-sm text-blue-800">
           Sign Up
         </Link>
       </div>

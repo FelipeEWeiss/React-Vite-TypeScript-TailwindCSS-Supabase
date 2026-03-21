@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { Button } from '../../../shared/components/Button';
 import { useAuth } from '../hooks/useAuth';
 
-const registerSchema = z
+const signUpSchema = z
   .object({
     email: z
       .string()
@@ -19,7 +19,7 @@ const registerSchema = z
     path: ['confirmationPassword'],
   });
 
-export const Register = () => {
+export const SignUp = () => {
   const { signUp } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ export const Register = () => {
       confirmationPassword: confirmationPasswordRef.current?.value,
     };
 
-    const result = registerSchema.safeParse(data);
+    const result = signUpSchema.safeParse(data);
 
     if (!result.success) {
       const errorMessage = result.error.issues[0].message;
@@ -47,7 +47,7 @@ export const Register = () => {
 
     try {
       await signUp(result.data.email, result.data.password);
-      navigate('/login');
+      navigate('/signin');
     } catch {
       addToast('Error creating account. Please, try again.', 'error');
     }
@@ -104,7 +104,7 @@ export const Register = () => {
       <div className="flex justify-center gap-1">
         <span className="text-sm text-gray-500">Already have an account?</span>
         <Link
-          to="/login"
+          to="/signin"
           className="font-semibold text-sm text-blue-800 hover:opacity-75 duration-200"
         >
           Sign In

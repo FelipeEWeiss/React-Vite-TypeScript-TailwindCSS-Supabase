@@ -37,7 +37,7 @@ export const ForgotPassword = () => {
         "We've sent you a password reset link. Please, check your inbox.",
         'success',
       );
-      navigate('/login');
+      navigate('/signin');
     } catch {
       addToast('Error to reset your password. Please, try again.', 'error');
     }
@@ -73,7 +73,7 @@ export const ForgotPassword = () => {
       <div className="flex justify-center gap-1">
         <span className="text-sm text-gray-500">Already have an account?</span>
         <Link
-          to="/login"
+          to="/signin"
           className="font-semibold text-sm text-blue-800 hover:opacity-75 duration-200"
         >
           Sign In
