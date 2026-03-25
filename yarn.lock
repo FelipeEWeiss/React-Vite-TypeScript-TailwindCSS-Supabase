@@ -324,10 +324,10 @@
   resolved "https://registry.yarnpkg.com/@eslint-community/regexpp/-/regexpp-4.12.2.tgz#bccdf615bcf7b6e8db830ec0b8d21c9a25de597b"
   integrity sha512-EriSTlt5OC9/7SXkRSCAhfSxxoSUgBm33OH+IkwbdpgoqsSsUg7y3uh+IICI/Qg4BBWr3U2i39RpmycbxMq4ew==
 
-"@felipeeweiss/react-toast-message@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@felipeeweiss/react-toast-message/-/react-toast-message-0.0.3.tgz#92667ba01fdfc7de69ba270396f9d92240d06ac1"
-  integrity sha512-PICVIuuipsEIXqPkbyzmLONP0dsESHXr+0HEwOpnPmxHQTBMVcn82av4KpMAfsxeHOsARIsbx7GH02rxDbjywA==
+"@felipeeweiss/react-toast-message@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@felipeeweiss/react-toast-message/-/react-toast-message-0.0.4.tgz#7f3f627ed158b1dd9cfe65f60a1319712eac7228"
+  integrity sha512-OxFGRbnuLEKvZUqFc4WgR1WHPm7ls9I1zBx13VAmIDt2ImhNQX39bHgFpNesvMOBlPeSG4avsrFLsZy1NrlRIg==
   dependencies:
     clsx "^2.1.1"
     react-icons "^5.6.0"

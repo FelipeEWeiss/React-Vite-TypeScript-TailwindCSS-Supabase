@@ -10,7 +10,7 @@
     "prettify": "prettier --write \"./**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
-    "@felipeeweiss/react-toast-message": "^0.0.3",
+    "@felipeeweiss/react-toast-message": "^0.0.4",
     "@supabase/supabase-js": "^2.98.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
